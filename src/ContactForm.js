@@ -40,10 +40,9 @@ const Form = () => {
         fullWidth
         value={reason}
         onChange={(e) => setReason(e.target.value)}
-        displayEmpty
       >
-        <MenuItem value="" disabled>
-          Select a reason
+        <MenuItem value="" displayEmpty>
+          <em>Request Type</em>
         </MenuItem>
         {reasons.map((option) => (
           <MenuItem key={option} value={option}>
@@ -74,6 +73,7 @@ const Form = () => {
 };
 
 const postDataToDiscord = async (data) => {
+  console.log(process.env.REACT_APP_DISCORD_WEBHOOK_URL);
   const webhookURL = process.env.REACT_APP_DISCORD_WEBHOOK_URL;
   const message = `New form submission:\nName: ${data.name}\nReason: ${data.reason}\nDetails: ${data.details}`;
   const payload = {
