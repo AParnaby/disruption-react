@@ -1,73 +1,99 @@
 import React, { useState } from "react";
-import { Button, TextField, MenuItem } from "@material-ui/core";
+import { TextField, Button, Grid, Select, MenuItem, InputLabel, FormControl, Snackbar } from "@material-ui/core";
 
 const reasons = [
   "Underling",
-  "Excursion/Audience",
   "Rite",
+  "Excursion/Audience",
   "Other",
 ];
 
 const Form = () => {
-  const [name, setName] = useState("");
-  const [reason, setReason] = useState("");
-  const [details, setDetails] = useState("");
+  const [formState, setFormState] = useState({
+    name: "",
+    reason: "",
+    message: "",
+  });
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const formData = { name, details, reason };
-    postDataToDiscord(formData);
-    console.log(formData);
+  const [open, setOpen] = useState(false);
+
+  const handleChange = (e) => {
+    setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = { ...formState };
+    postDataToDiscord(formData);
+    setFormState({
+      name: "",
+      reason: "",
+      message: "",
+    });
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   return (
-    <form onSubmit={handleFormSubmit}>
-      <TextField
-        label="Name"
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            label="Name"
+            name="name"
+            value={formState.name}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel>Request Type</InputLabel>
+            <Select
+              required
+              value={formState.reason}
+              onChange={handleChange}
+              displayEmpty
+              name="reason"
+            >
+              <MenuItem value="">Request Type</MenuItem>
+              {reasons.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+               ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            label="Message"
+            name="message"
+            multiline
+            minRows={4}
+            value={formState.message}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary" type="submit">
+            Submit
+          </Button>
+        </Grid>
+      </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        open={open}
+        onClose={handleClose}
+        message="Form submitted successfully"
+        autoHideDuration={5000}
       />
-      <TextField
-        select
-        label="Request Type"
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        value={reason}
-        onChange={(e) => setReason(e.target.value)}
-      >
-        <MenuItem value="" displayEmpty>
-          <em>Request Type</em>
-        </MenuItem>
-        {reasons.map((option) => (
-          <MenuItem key={option} value={option}>
-            {option}
-          </MenuItem>
-        ))}
-      </TextField>
-      <TextField
-        label="Details"
-        variant="outlined"
-        margin="normal"
-        type="details"
-        required
-        fullWidth
-        value={details}
-        onChange={(e) => setDetails(e.target.value)}
-      />
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        fullWidth
-      >
-        Submit
-      </Button>
     </form>
   );
 };
@@ -75,7 +101,7 @@ const Form = () => {
 const postDataToDiscord = async (data) => {
   console.log(process.env.REACT_APP_DISCORD_WEBHOOK_URL);
   const webhookURL = process.env.REACT_APP_DISCORD_WEBHOOK_URL;
-  const message = `New form submission:\nName: ${data.name}\nReason: ${data.reason}\nDetails: ${data.details}`;
+  const message = `New form submission:\nName: ${data.name}\nReason: ${data.reason}\nDetails: ${data.message}`;
   const payload = {
     content: message,
   };
