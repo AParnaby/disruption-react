@@ -1,3 +1,6 @@
+# disruption-react
+A simple web form using React and Material UI, which posts the form content to a Discord server via webhook. Intended for use during live events, escape rooms, immersive theater experiences, and so forth.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
