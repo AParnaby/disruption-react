@@ -43,7 +43,6 @@ const Form = () => {
         <Grid item xs={12}>
           <TextField
             required
-            fullWidth
             label="Name"
             name="name"
             value={formState.name}
@@ -51,7 +50,7 @@ const Form = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControl fullWidth>
+          <FormControl>
             <InputLabel>Request Type</InputLabel>
             <Select
               required
@@ -72,7 +71,6 @@ const Form = () => {
         <Grid item xs={12}>
           <TextField
             required
-            fullWidth
             label="Message"
             name="message"
             multiline
@@ -99,7 +97,6 @@ const Form = () => {
 };
 
 const postDataToDiscord = async (data) => {
-  console.log(process.env.REACT_APP_DISCORD_WEBHOOK_URL);
   const webhookURL = process.env.REACT_APP_DISCORD_WEBHOOK_URL;
   const message = `New form submission:\nName: ${data.name}\nReason: ${data.reason}\nDetails: ${data.message}`;
   const payload = {
