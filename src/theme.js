@@ -1,6 +1,26 @@
 import { createTheme } from '@material-ui/core/styles';
 
 const theme = createTheme({
+  overrides: {
+    MuiOutlinedInput: {
+      root: {
+        "&$focused $notchedOutline": {
+          borderWidth: "2px",
+          borderColor: "#5d001e",
+        },
+      },
+      focused: {},
+      notchedOutline: {},
+    },
+    MuiSelect: {
+      icon: {
+        color: "#5d001e",
+      },
+      selectMenu: {
+        backgroundColor: "white",
+      },
+    },
+  },
   palette: {
     primary: {
       main: '#800000',
@@ -12,7 +32,7 @@ const theme = createTheme({
     },
     text: {
       primary: '#444444',
-      secondary: '#f5f5f5',
+      secondary: '#800000',
     },
     background: {
       default: '#f5f5f5',

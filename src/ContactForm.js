@@ -43,17 +43,21 @@ const Form = () => {
         <Grid item xs={12}>
           <TextField
             required
+            variant="outlined"
             label="Name"
             name="name"
             value={formState.name}
             onChange={handleChange}
+            fullWidth
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControl>
+          <FormControl fullWidth>
             <InputLabel>Request Type</InputLabel>
             <Select
               required
+              autoWidth
+              variant="outlined"
               value={formState.reason}
               onChange={handleChange}
               displayEmpty
@@ -71,16 +75,18 @@ const Form = () => {
         <Grid item xs={12}>
           <TextField
             required
+            variant="outlined"
             label="Message"
             name="message"
             multiline
             minRows={4}
             value={formState.message}
             onChange={handleChange}
+            fullWidth
           />
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" type="submit">
+          <Button variant="contained" color="primary" type="submit" fullWidth>
             Submit
           </Button>
         </Grid>
